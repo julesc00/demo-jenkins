@@ -1,3 +1,6 @@
+// Example of a job's custom display nam
+currentBuild.displayName = "online-shopping-#"+currentBuild.number
+
 pipeline {
     agent any
     environment {
