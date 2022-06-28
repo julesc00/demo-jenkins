@@ -2,7 +2,6 @@ pipeline {
     agent any 
     environment {
         // ADD Maven path environment
-        PATH = "/miniconda3/bin:$PATH"
         myEnv = "my-env2"
     }
     stages {
