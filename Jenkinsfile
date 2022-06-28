@@ -21,7 +21,7 @@ pipeline {
             steps {
                 // Update Python to version 3
                 sh """
-                sudo mkdir -p /home/ec2-user/app && cd /home/ec2-user/app
+                mkdir -p /home/ec2-user/app && cd /home/ec2-user/app
                 pip install --user pipenv
                 pipenv shell
                 pipenv install django

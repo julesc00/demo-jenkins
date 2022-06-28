@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+    environment {
+        PATH = "/opt/maven3/bin:$PATH"
+    }
+
+    stages{
+        stage("Git checkout") {
+            steps {
+                git credentialsId: "julesc00", url: "https://github.com/julesc00/demo-jenkins.git"
+            }
+        }
+        stage("Maven Build") {
+            steps {
+                // Maven has to be installed on Jenkins server instance
+                sh "mvn clean package"
+            }
+
+        }
+    }
+}
