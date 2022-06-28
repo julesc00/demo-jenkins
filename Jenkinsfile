@@ -19,12 +19,19 @@ pipeline {
         stage("Install Python 3 and Django") {
             steps {
                 // Update Python to version 3
+                echo "Start downloading miniconda"
                 sh """
-                chmod +x Miniconda3-py39_4.12.0-Linux-x86_64.sh &&
+                mkdir condiux && cd condiux && 
+                wget -O https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64.sh &&
+                sudo chmod +x Miniconda3-py39_4.12.0-Linux-x86_64.sh &&
+                echo 'Successfully downloaded miniconda' &&
                 ./Miniconda3-py39_4.12.0-Linux-x86_64.sh
                 """
 
+                echo "Successfully installed miniconda"
+
                 // Install Conda
+                echo "Installing "
                 sh "conda create -n my-env python=3.9 -y && conda activate my-env"
                 sh "pip install django"
             }
