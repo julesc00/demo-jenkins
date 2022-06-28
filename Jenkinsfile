@@ -2,7 +2,7 @@ pipeline {
     agent any 
     environment {
         // ADD Maven path environment
-        PATH = "$WORKSPACE/miniconda/bin:$PATH"
+        PATH = "/miniconda3/bin:$PATH"
         myEnv = "my-env2"
     }
     stages {
@@ -22,6 +22,7 @@ pipeline {
             steps {
                 // Update Python to version 3
                 sh """
+                conda init bash
                 echo "[INFO] Updating conda"
                 conda update -q conda
                 echo '[INFO] Successfully installed and updated miniconda :)'
@@ -29,7 +30,6 @@ pipeline {
                 echo "[INFO] Creating ${myEnv}..."
                 conda create -y -n my-env python=3.9
                 echo "[INFO] Successfully created ${myEnv}"
-                conda init bash
                 conda activate ${myEnv}
                 echo "[INFO] ${myEnv} has been successfully activated"
                 echo "[INFO] Successfully installed miniconda"
