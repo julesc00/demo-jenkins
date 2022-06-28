@@ -25,7 +25,7 @@ pipeline {
                 conda init bash
                 echo "[INFO] Updating conda"
                 conda update -q conda
-                echo '[INFO] Successfully installed and updated miniconda :)'
+                echo '[INFO] Successfully updated miniconda :)'
                 
                 echo "[INFO] Creating ${myEnv}..."
                 conda create -y -n my-env python=3.9
