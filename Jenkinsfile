@@ -3,6 +3,7 @@ pipeline {
     environment {
         // ADD Maven path environment
         PATH = "/opt/maven-3.8.6/bin:$PATH"
+        myEnv = "my-env"
     }
     stages {
         stage("Git Checkout") {
@@ -17,23 +18,46 @@ pipeline {
             }
         }
         stage("Install Python 3 and Django") {
+
             steps {
                 // Update Python to version 3
-                echo "Start downloading miniconda"
+                echo "[INFO] Start downloading miniconda"
                 sh """
-                mkdir condiux && cd condiux && 
-                wget -O https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64.sh &&
-                sudo chmod +x Miniconda3-py39_4.12.0-Linux-x86_64.sh &&
-                echo 'Successfully downloaded miniconda' &&
-                ./Miniconda3-py39_4.12.0-Linux-x86_64.sh
+                wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64.sh -O miniconda.sh
+                echo '[INFO] Successfully downloaded miniconda'
+                bash miniconda.sh -b -p $WORKSPACE/miniconda
+                hash -r
+                conda config --set always_yes yes --set changeps1 no
+                echo "[INFO] Updating conda"
+                conda update -q conda
+                echo '[INFO] Successfully installed and updated miniconda :)'
+                
+                echo "[INFO] Creating ${myEnv}..."
+
+                conda init bash
+                conda create -y -n my-env python=3.9
+                echo "[INFO] Successfully created ${myEnv}"
+                conda activate ${myEnv}
+                echo "[INFO] ${myEnv} has been successfully activated"
+                echo "[INFO] Successfully installed miniconda"
                 """
+            }
+        }
+        stage("Test conda") {
+            steps {
+                sh '''#!/usr/bin/env bash
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                echo "[INFO] Conda was tested successfully!"
+                '''
 
-                echo "Successfully installed miniconda"
-
-                // Install Conda
-                echo "Installing "
-                sh "conda create -n my-env python=3.9 -y && conda activate my-env"
-                sh "pip install django"
+            }
+        }
+        stage("Install Django"){
+            steps {
+                sh """
+                pip install django -y
+                echo "[INFO] Django was successfully installed
+                """
             }
         }
     }
