@@ -21,6 +21,7 @@ pipeline {
             steps {
                 // Update Python to version 3
                 sh """
+                export PATH="/home/ec2-user/miniconda3/bin:$PATH"
                 conda init bash
                 echo "[INFO] Updating conda"
                 conda update -q conda
