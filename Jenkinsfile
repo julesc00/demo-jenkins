@@ -25,7 +25,7 @@ pipeline {
                 sh """
                 wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64.sh -O miniconda.sh
                 echo '[INFO] Successfully downloaded miniconda'
-                bash miniconda.sh -b -p $WORKSPACE/miniconda
+
                 hash -r
                 conda init bash
                 conda config --set always_yes yes --set changeps1 no
