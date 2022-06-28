@@ -21,35 +21,18 @@ pipeline {
 
             steps {
                 // Update Python to version 3
-                echo "[INFO] Start downloading miniconda"
                 sh """
-                wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64.sh -O miniconda.sh
-                echo '[INFO] Successfully downloaded miniconda'
-                bash miniconda.sh -b -p $WORKSPACE/miniconda
-                hash -r
-                conda config --set always_yes yes --set changeps1 no
                 echo "[INFO] Updating conda"
                 conda update -q conda
                 echo '[INFO] Successfully installed and updated miniconda :)'
                 
                 echo "[INFO] Creating ${myEnv}..."
-
-                conda init bash
                 conda create -y -n my-env python=3.9
                 echo "[INFO] Successfully created ${myEnv}"
                 conda activate ${myEnv}
                 echo "[INFO] ${myEnv} has been successfully activated"
                 echo "[INFO] Successfully installed miniconda"
                 """
-            }
-        }
-        stage("Test conda") {
-            steps {
-                sh '''#!/usr/bin/env bash
-                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                echo "[INFO] Conda was tested successfully!"
-                '''
-
             }
         }
         stage("Install Django"){
