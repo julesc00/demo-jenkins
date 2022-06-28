@@ -21,25 +21,10 @@ pipeline {
             steps {
                 // Update Python to version 3
                 sh """
-                export PATH="/home/ec2-user/miniconda3/bin:$PATH"
-                echo "[INFO] Updating conda"
-                conda update -q conda
-                echo '[INFO] Successfully updated miniconda :)'
-                
-                echo "[INFO] Creating ${myEnv}..."
-                conda create -y -n my-env python=3.9
-                echo "[INFO] Successfully created ${myEnv}"
-                conda activate ${myEnv}
-                echo "[INFO] ${myEnv} has been successfully activated"
-                echo "[INFO] Successfully installed miniconda"
-                """
-            }
-        }
-        stage("Install Django"){
-            steps {
-                sh """
-                pip install django -y
-                echo "[INFO] Django was successfully installed
+                mkdir -p /home/ec2-user/app && cd /home/ec2-user/app
+                pip install --user pipenv
+                pipenv shell
+                pipenv install django
                 """
             }
         }
