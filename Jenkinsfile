@@ -20,7 +20,6 @@ pipeline {
             steps {
                 // Update Python to version 3
                 sh """
-                sudo yum install python3 -y
                 wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64.sh &&
                 sudo chmod +x Miniconda3-py39_4.12.0-Linux-x86_64.sh &&
                 ./Miniconda3-py39_4.12.0-Linux-x86_64.sh
