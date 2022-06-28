@@ -31,9 +31,6 @@ pipeline {
                     ssh ec2-user@private_ip_address /opt/tomcat8/bin/start.sh
                 """
             }
-            steps {
-
-            }
         }
     }
 }
