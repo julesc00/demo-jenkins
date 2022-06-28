@@ -24,9 +24,10 @@ pipeline {
                 sudo chmod +x Miniconda3-py39_4.12.0-Linux-x86_64.sh &&
                 ./Miniconda3-py39_4.12.0-Linux-x86_64.sh
                 """
-                // Install Conda
-                "conda create -n my-env python=3.9 -y && conda activate my-env"
-                "pip install django"
+
+                sh // Install Conda
+                sh "conda create -n my-env python=3.9 -y && conda activate my-env"
+                sh "pip install django"
             }
         }
     }
