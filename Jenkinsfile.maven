@@ -14,8 +14,26 @@ pipeline {
             steps {
                 // Maven has to be installed on Jenkins server instance
                 sh "mvn clean package"
+                // Rename file
+                sh "mv target/*.war target/myweb.war"
             }
 
+        }
+        stage("Deploy-dev ") {
+            // Use ssh-agent plugin within Jenkins server
+            // scp -o StrictHostKeyChecking=no this will supress tomcat first-time use prompt. Here I can use the private IP since they are within 
+            // the same vpc or network.
+            sshagent(["tomcat-new"]) {
+                sh """
+                    scp -o StrictHostKeyChecking=no target/myweb.war ec2-user@private_ip_address:/opt/tomcat8/webapps/
+
+                    ssh ec2-user@private_ip_address /opt/tomcat8/bin/shutdown.sh
+                    ssh ec2-user@private_ip_address /opt/tomcat8/bin/start.sh
+                """
+            }
+            steps {
+
+            }
         }
     }
 }
