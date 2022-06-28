@@ -27,14 +27,13 @@ pipeline {
                 echo '[INFO] Successfully downloaded miniconda'
                 bash miniconda.sh -b -p $WORKSPACE/miniconda
                 hash -r
+                conda init bash
                 conda config --set always_yes yes --set changeps1 no
                 echo "[INFO] Updating conda"
                 conda update -q conda
                 echo '[INFO] Successfully installed and updated miniconda :)'
                 
                 echo "[INFO] Creating ${myEnv}..."
-
-                conda init bash
                 conda create -y -n my-env python=3.9
                 echo "[INFO] Successfully created ${myEnv}"
                 conda activate ${myEnv}
